@@ -1,0 +1,48 @@
+name: Build and Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1 - Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2 - Set up Java 21
+      - name: Set up Java 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      # Step 3 - Build JAR
+      - name: Build JAR with Maven
+        run: ./mvnw clean package -DskipTests
+
+      # Step 4 - Deploy to EC2
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            sudo lsof -ti:8080 | xargs sudo kill -9 || true
+            nohup java -jar ~/urlshortener-0.0.1-SNAPSHOT.jar > ~/app.log 2>&1 &
+
+      # Step 5 - Copy JAR to EC2
+      - name: Copy JAR to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: "target/urlshortener-0.0.1-SNAPSHOT.jar"
+          target: "~/"
+          strip_components: 1
