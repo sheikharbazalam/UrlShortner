@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -21,3 +22,38 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+=======
+# Maven
+target/
+*.jar
+*.war
+
+# Spring Boot sensitive config
+src/main/resources/application.properties
+
+# IDE files
+.idea/
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# OS files
+.DS_Store
+src/.DS_Store
+
+# Logs
+*.log
+logs/
+>>>>>>> 118d2e4ef3d5ab213f808d849fce22ec8babe16c
