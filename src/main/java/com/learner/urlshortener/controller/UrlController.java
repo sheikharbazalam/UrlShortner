@@ -34,7 +34,7 @@ public class UrlController {
         if (originalUrl == null || originalUrl.isBlank()) {
             return ResponseEntity
                     .badRequest()
-                    .body(Map.of("error", "URL cannot be empty"));
+                    .body(Map.of("error", "URL cannot be empty"));  
         }
 
         Url savedUrl = urlService.shortenUrl(originalUrl);
