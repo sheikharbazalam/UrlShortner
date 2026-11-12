@@ -41,7 +41,7 @@ public class UrlController {
 
         return ResponseEntity.ok(Map.of(
                 "shortCode", savedUrl.getShortCode(),
-                "shortUrl", appBaseUrl + "/r/" + savedUrl.getShortCode(),
+                "shortUrl", appBaseUrl + "/api/r/" + savedUrl.getShortCode(),
                 "originalUrl", savedUrl.getOriginalUrl()
         ));
     }
